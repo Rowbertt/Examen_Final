@@ -1,0 +1,80 @@
+﻿@code {
+    private Laptop laptopSeleccionado;
+    private List<Laptop> laptopsIngresados = new List<Laptop>();
+    private Laptop nuevoLaptop = new Laptop();
+
+    private void GuardarLaptop()
+    {
+        laptopsIngresados.Add(nuevoLaptop);
+        nuevoLaptop = new Laptop(); //
+    }
+
+    private void EditarLaptop(Laptop laptop)
+    {
+        laptopSeleccionado = laptop;
+    }
+
+    private void GuardarCambios()
+    {
+       
+        laptopSeleccionado = null; 
+    }
+}
+
+<h3>Formulario de Ingreso de Laptop</h3>
+<form>
+    <label>Número de Serie:</label>
+    <input type="text" @bind="nuevoLaptop.NumeroSerie" />
+
+    <label>Marca:</label>
+    <input type="text" @bind="nuevoLaptop.Marca" />
+
+    <label>Modelo:</label>
+    <input type="text" @bind="nuevoLaptop.Modelo" />
+
+    <label>Memoria RAM (GB):</label>
+    <input type="number" @bind="nuevoLaptop.MemoriaRAM" />
+
+    <label>Almacenamiento (GB):</label>
+    <input type="number" @bind="nuevoLaptop.Almacenamiento" />
+
+    <button @onclick="GuardarLaptop">Guardar Laptop</button>
+</form>
+
+<h3>Listado de Laptops Ingresados</h3>
+@if (laptopsIngresados.Any())
+{
+    <ul>
+        @foreach (var laptop in laptopsIngresados)
+        {
+            <li>
+                @laptop.Modelo
+                <button @onclick="() => EditarLaptop(laptop)">Editar</button>
+            </li>
+        }
+    </ul>
+
+    <p>Total de laptops ingresados: @laptopsIngresados.Count</p>
+}
+else
+{
+    <p>No se han ingresado laptops aún.</p>
+}
+
+@if (laptopSeleccionado != null)
+{
+    <h3>Editar Laptop</h3>
+
+    <form>
+        <label>Modelo:</label>
+        <input type="text" @bind="laptopSeleccionado.Modelo" />
+
+        <label>Memoria RAM (GB):</label>
+        <input type="number" @bind="laptopSeleccionado.MemoriaRAM" />
+
+        <label>Almacenamiento (GB):</label>
+        <input type="number" @bind="laptopSeleccionado.Almacenamiento" />
+
+        <button @onclick="GuardarCambios">Guardar Cambios</button>
+    </form>
+}
